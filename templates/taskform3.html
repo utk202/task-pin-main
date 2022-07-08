@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TaskPIN</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
+		integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+		integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="icon" href="{% static 'main/img/favicon.png' %}" type="image/x-icon">
+	<link rel="stylesheet" href="{% static 'main/css/taskform1.css' %}">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark p-0">
+		<div class="container">
+			<a href="{% url 'home' %}" class="navbar-brand"><img src="{% static 'main/img/Pin.png' %}" alt=""
+					class="LogoImage"></a>
+			<div id="navbarCollapse" class="d-flex align-items-center collapse navbar-collapse">
+				<ul class="d-flex align-items-center mt-3">
+					<div class="d-flex align-items-center">
+						<div class="input-group">
+							<span class="input-group-text text-white SearchIcon"><i class="bi bi-search"></i></span><input type="text"
+								name="search" class="form-control form-control-md text-white large-default" id="search-large"
+								placeholder="Search Your Tasks">
+						</div>
+					</div>
+				</ul>
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item dropdown me-3">
+						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+							<i class="fas fa-user"></i> {{username}}
+						</a>
+						<div class="dropdown-menu">
+							<!-- <a href="profile.html" class="dropdown-item">
+								<i class="fas fa-user-circle"></i> Profile
+							</a> -->
+							<a href="{% url 'logout' %}" class="dropdown-item">
+								<i class="fas fa-user-times"></i> Logout
+							</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'contact' %}" class="nav-link">
+							<i class="fas fa-pad"></i> Contact Us
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="small-screen-nav" class="overlay-black overflow-y-hide">
+		<div class="container d-flex align-items-center overflow-y-hide">
+			<div id="hamburger">
+				<span class="bar"></span>
+				<span class="bar mid"></span>
+				<span class="bar"></span>
+			</div>
+			<div>
+				<a href="#" class="my-navbar-logo"><img src="{% static 'main/img/taskpin.png' %}" alt=""></a>
+			</div>
+			<div id="toggler">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<ul class="my-nav-menu ps-0 me-auto">
+				<li class="my-nav-item color-red">
+					Welcome {{username}}
+				</li>
+				<!-- <li class="my-nav-item active">
+					<a href="taskform.html" class="my-nav-link">Profile</a>
+				</li> -->
+				<li class="my-nav-item">
+					<a href="{% url 'logout' %}" class="my-nav-link">Logout</a>
+				</li>
+				<li class="my-nav-item">
+					<a href="{% url 'contact' %}" class="my-nav-link">Contact Us</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container d-none" id="search-bar">
+		<div class="input-group">
+			<span class="input-group-text bg-bl text-white"><i class="bi bi-search small-bi"></i></span>
+			<input type="text" name="search" class="form-control form-control-sm small-default bg-dark text-white"
+				id="search-small" placeholder="Search Your Tasks">
+		</div>
+	</div>
+
+
+	<!-- <header id="main-header" class="py-2 text-white">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h1>
+						<i class="fas fa-cog"></i> Dashboard
+					</h1>
+				</div>
+			</div>
+		</div>
+	</header> -->
+
+	<section id="actions" class="py-4 bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="d-grid col-md-4">
+					<a href="#" class="btn bg-bl text-white btn-block" data-bs-toggle="modal" data-bs-target="#addTask">
+						<i class="fas fa-plus"></i> Add Task
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div class="row text-white FONT d-flex flex-row align-items-stretch text-center" id="TASKS">
+				<div class="col-md-3 bg-grey p-3 text-center task-heading {{disall}} bg-dark port-item cursor-pointer"
+					data-bs-toggle="collapse" data-bs-target="#All">All</div>
+				<div class="col-md-3 bg-grey p-3 text-center task-heading {{dispend}} bg-dark port-item cursor-pointer"
+					data-bs-toggle="collapse" data-bs-target="#Pending">Pending</div>
+				<div class="col-md-3 bg-grey p-3 text-center task-heading {{disimp}} bg-dark port-item cursor-pointer"
+					data-bs-toggle="collapse" data-bs-target="#Pinned">Pinned</div>
+				<div
+					class="col-md-3 bg-grey p-3 text-center task-heading {{discomp}} bg-dark port-item cursor-pointer overflow-hidden"
+					data-bs-toggle="collapse" data-bs-target="#Completed">Completed</div>
+			</div>
+		</div>
+	</section>
+
+	<br>
+
+	<div id="no-match" class="text-center display-6 text-muted"></div>
+
+	<section id="All" class="collapse {{listall}} mb-foot">
+		<div class="container">
+			<div class="row">
+				<div id="accordian">
+					{% block main1 %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="Pending" class="collapse {{listpend}} mb-foot">
+		<div class="container">
+			<div class="row">
+				<div id="accordian">
+					{% block main2 %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="Pinned" class="collapse {{listimp}} mb-foot">
+		<div class="container">
+			<div class="row">
+				<div id="accordian">
+					{% block main3 %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="Completed" class="collapse {{listcomp}} mb-foot">
+		<div class="container">
+			<div class="row">
+				<div id="accordian">
+					{% block main4 %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<br>
+
+	<footer class="bg-dark text-center footer fixed-bottom">
+		<section id="testimonials" class="">
+			<div class="col text-center">
+				<div class="slider testimonial">
+					<div class="heading p-2 text-center bg-bl pt-3">
+						<h3 class="d-flex justify-content-center ms-auto overflow-hidden text-white" style="overflow-y: hidden;">
+							<i class="align-self-center fas fa-thumbtack me-2"></i> Pin Your Important Tasks
+						</h3>
+					</div>
+					<div class="heading p-2 text-center bg-red pt-3">
+						<h3 class="-flex justify-content-center ms-auto overflow-hidden text-white" style="overflow-y: hidden;"><i
+								class="align-self-center fas fa-thumbtack me-2"></i> Pin Your Important Tasks</h3>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="text-center p-3 text-light">
+			Copyright &copy; <span id="year"></span>
+			<div class="mt-2 d-inline"> <img src="{% static 'main/img/taskpin.png' %}" alt=""
+					class="footer-img img-fluid d-inline"></div>
+		</div>
+	</footer>
+
+	<!-- <div class="modal fade" id="editTask">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-red text-white">
+					<h3 class="modal-title">Edit Task</h3>
+					<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST">
+						<div class="form-group mb-3">
+							<label for="title" class="mb-2">Title</label>
+							<input type="text" class="form-control">
+						</div>
+						<div class="form-group mb-3">
+							<label for="category" class="mb-2">Category</label>
+							<br>
+							<select class="form-control">
+								<option>Others</option>
+								<option>Work</option>
+								<option>Sports</option>
+								<option>Study</option>
+							</select>
+						</div>
+
+
+						<div class="form-group mb-3">
+							<label for="title" class="mb-2">Date & Time</label>
+							<input type="datetime-local" class="form-control">
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="body" class="mb-2">Description</label>
+							<textarea name="editor1" class="form-control" row="5"></textarea>
+							<textarea rows="3" class="form-control"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button class="btn bg-red text-white" data-bs-dismiss="modal">Save Changes</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!--Modals-->
+	{% block addtask %}
+	{% endblock %}
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js"
+		integrity="sha512-WNZwVebQjhSxEzwbettGuQgWxbpYdoLf7mH+25A7sfQbbxKeS5SQ9QBf97zOY4nOlwtksgDA/czSTmfj4DUEiQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="{% static 'main/js/taskform.js' %}"></script>
+	<script>
+		$('#year').text(new Date().getFullYear());
+		$(".slider").slick({
+			arrows: false,
+			infinite: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 3000,
+			mobileFirst: true
+		});
+
+		$('.port-item').click(function (event) {
+			var ports = $('.port-item');
+			var target = event.target;
+			var target_id = target.textContent;
+			var target_collapse = document.getElementById(target_id);
+			if (ports.hasClass('ActiveTasks')) {
+				// var active = document.getElementById(document.querySelector('.ActiveTasks').textContent);
+				// var a = active.querySelectorAll('h5');
+				// a.forEach(function (item) {
+				// 	item.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = 'block';
+				// });
+				ports.removeClass('ActiveTasks')
+			}
+			target.classList.add('ActiveTasks');
+			$('.collapse').collapse('hide');
+		});
+	</script>
+</body>
+
+</html>

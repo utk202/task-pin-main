@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'main/css/contact.css' %}">
+	<link rel="icon" href="{% static 'main/img/favicon.png' %}" type="image/x-icon">
+	<title>TaskPIN</title>
+</head>
+
+<body>
+	{% if user.is_anonymous %}
+	<nav class="overlay-black">
+		<div class="container">
+			<a href="{% url 'home' %}" class="my-navbar-logo"><img src="{% static 'main/img/taskpin.png' %}" alt=""></a>
+			<div id="toggler">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<ul class="my-nav-menu">
+				<li class="my-nav-item home">
+					<a href="{% url 'home' %}" class="my-nav-link">Home</a>
+				</li>
+				<li class="my-nav-item">
+					<a href="{% url 'login' %}" class="my-nav-link">Login</a>
+				</li>
+				<li class="my-nav-item">
+					<a href="{% url 'signup' %}" class="my-nav-link">SignUp</a>
+				</li>
+				<li class="my-nav-item active">
+					<a href="{% url 'contact' %}" class="my-nav-link">Contact Us</a>
+				</li>
+
+			</ul>
+	</nav>
+	{% else %}
+	<nav class="overlay-black">
+		<div class="container px-4">
+
+			<a href="{% url 'tasklist' %}" class="my-navbar-logo"><img src="{% static 'main/img/taskpin.png' %}" alt=""></a>
+			<a href="{% url 'tasklist' %}" class="my-nav-link"
+				style="color: #33a4ff !important; font-weight: bold;">Tasklist</a>
+
+			<!--<li class="my-nav-item active">
+					<a href="{% url 'contact' %}" class="my-nav-link">Contact Us</a>
+				</li>-->
+	</nav>
+	{% endif %}
+
+	<section id="contact-form">
+		<div id="tushar">
+			<div class="row contact1 justify-content-center">
+
+				<div class="col-sm-6 col-lg-4 login-form d-flex align-items-center mt-5 mb-2">
+					<div class="container text-center p-4">
+						<div class="card card-red">
+							<div class="card-content">
+								<div class="card-body">
+									<h2 class="text-center overflow-y-hide">
+										<span class="color-red">CONTACT</span><span class="color-blue">US</span>
+									</h2>
+									<p>Please use this form to contact us and we'll get back to you as soon as possible!</p>
+									<form action='/contact/' class="" method="POST">
+										{% csrf_token %}
+										<div class="input-group mb-3">
+											<input type="name" name="name" id="name" class="form-control" placeholder="Full Name" required>
+										</div>
+										<div class="input-group mb-3">
+											<input type="email" name="email" id="email" class="form-control" placeholder="Email Id" required>
+										</div>
+										<textarea type="text" name="message" id="message" class="form-control" rows="3" cols="3"
+											placeholder="Message" required></textarea>
+										<div class="d-grid">
+											<input type="submit" value="Submit" id="register" class="btn btn-blue mt-3 btn-block">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- <div class="aboutus container mt-4 mb-4 ">
+		
+			<div class="main-content row">
+				<div class="paragraph col-lg-6 col-md-5">
+					<p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores molestiae quasi tempora accusantium doloremque esse magnam, illo neque blanditiis quidem minus quibusdam architecto aliquam debitis cum beatae perspiciatis impedit explicabo, at quis eaque? Consequatur deleniti dignissimos, excepturi, nostrum impedit nulla repellendus fuga quam error blanditiis iusto repudiandae facilis, doloremque facere?</p>
+					<p class="text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est necessitatibus iusto quasi deleniti quod ipsa, dolor soluta. Modi, quia hic.</p>
+				</div>
+			</div>
+	</div> -->
+	<div class="about-us">
+		<span class="color-red">ABOUT</span><span class="color-blue">US</span>
+	</div>
+	<center>
+		<hr>
+	</center>
+	<div class="row text-center backend px-2">
+		<div class="col-md-3 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/kshitij.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Kshitij Jha</h3>
+			<p>ruk divyansh ko bulata hu <br> (me hero)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/kshitij.jha.03/" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/trivialguy" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/kshitij-jha-12b148219" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+		<div class="col-md-3 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/adit.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Adit Malhotra</h3>
+			<p>django rehne do, node. js seekhna <br>insta rehne do, cf chalao<br> (me <a style="color:#03a89e;font-weight:bold;"
+					href="https://codeforces.com/profile/aditm" target="_blank">specialist</a>)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://codeforces.com/profile/aditm" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/aditm7" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/aditmalhotra" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+		<div class="col-md-3 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/tushar.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Tushar Sethi</h3>
+			<p>kin peasants ke saath baitha mein <br> (me chad)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/tusharsethi_18/" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/tushar1810" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/tushar-sethi-10a6b41ba" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+		<div class="col-md-3 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/akshit.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Akshit Bhardwaj</h3>
+			<p>meine jokes achhe banaye <br> (me kamedian)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/akshit_._bhardwaj4/" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/akshitbhardwaj" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/akshit-bhardwaj-820437191" target="_blank" class="link"><i
+						class="fab link1 fa-linkedin-in "></i></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row text-center frontend px-2">
+		<div class="col-md-4  mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/aayush.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Aayush Gupta</h3>
+			<p>Meine hi sab kiya baaki sab nalle <br> (me original kabootar) </p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/aayushg1713/" class="link" target="_blank"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/aayushg1713" target="_blank" class="link" target="_blank"><i
+						class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/aayush-gupta-74b85b1bb/" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+		<div class="col-md-4 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/gautam.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Gautam Gosain</h3>
+			<p>mahina kha gye mera <br> (me og maggu)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/gautamgosain04/" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/GautamGosain" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/gautam-gosain-60a984207" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+		<div class="col-md-4 mt-4 d-flex flex-column align-items-center">
+			<div style="height: 150px; width: 150px;" class="rounded-circle overflow-hidden">
+				<img src="{% static 'main/img/kamra.jpeg' %}" class="d-block rounded-circle display-picture"
+					style="height: 150px; width: 150px;">
+			</div>
+			<h3 class="overflow-hidden">Parth Kamra</h3>
+			<p>yeh page meine hi banaya hai, ek mahine mein <br> (me neta)</p>
+			<div class="icons overflow-hidden">
+				<a href="https://www.instagram.com/kamraparth/" target="_blank" class="link"><i
+						class="fab fa-instagram "></i></a>
+				<a href="https://github.com/TripleC444" target="_blank" class="link"><i class="fab fa-github "></i></a>
+				<a href="https://www.linkedin.com/in/parth-k-4959a8135" target="_blank" class="link"><i
+						class="fab fa-linkedin-in "></i></a>
+			</div>
+		</div>
+	</div>
+
+
+
+	<footer class="bg-dark text-center footer">
+		<div class="text-center p-3 text-light text-white">
+			Copyright &copy; <span id="year"></span>
+			<div class="mt-2"> <img src="{% static 'main/img/taskpin.png' %}" alt="" class="footer-img img-fluid"></div>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+	<script src="{% static 'main/js/login.js' %}"></script>
+	<script>$('#year').text(new Date().getFullYear());</script>
+</body>
+
+</html>

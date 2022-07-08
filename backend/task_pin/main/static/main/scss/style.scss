@@ -1,0 +1,63 @@
+@import "utilities";
+
+* {
+	overflow-x: hidden;
+	a {
+		text-decoration: none !important;
+	}
+}
+
+.sm {
+	font-size: 0.8rem !important;
+}
+
+body {
+	background: url("/img/background.jpg") no-repeat center center/cover;
+}
+
+.row {
+	height: 100vh;
+}
+
+.overlay-dark {
+	background-color: rgba(0, 0, 0, 0.7);
+}
+.overlay-black {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.navbar {
+	.nav-link {
+		font-size: 14px;
+		text-transform: uppercase;
+		padding-left: 0.4rem !important;
+		padding-right: 1rem !important;
+	}
+
+	.nav-item.active {
+		border-left: #444 3px solid;
+		font-weight: bold;
+	}
+}
+.NAVBAR {
+	img {
+		height: 35px;
+	}
+}
+
+.footer {
+	font-size: 20px;
+	&-img {
+		height: 30px;
+	}
+}
+
+#contents {
+	font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+	nav {
+		position: relative !important;
+	}
+}

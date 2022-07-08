@@ -1,0 +1,130 @@
+@import "_utilities";
+
+* {
+	overflow-x: hidden;
+	a {
+		text-decoration: none !important;
+	}
+}
+
+.sm {
+	font-size: 0.8rem !important;
+}
+
+body {
+	background: url("/img/background-min.jpg") no-repeat center center/cover;
+}
+
+.row {
+	height: 100vh;
+}
+
+.card {
+	a {
+		color: #fff;
+	}
+	transition: all 0.5s ease-in-out;
+	&-footer {
+		transition: all 0.5s ease-in-out;
+	}
+}
+
+#password {
+	border-right: none;
+	&:focus + .input-group-text {
+		border-color: rgba(0, 123, 255, 0.5);
+	}
+}
+
+.input-group-text {
+	background: none !important;
+	border-left: none;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#contents {
+	font-size: 1.2rem;
+}
+
+// MEDIA QUERIES
+
+@media (max-width: 1000px) and (min-width: 576px) {
+	nav {
+		position: relative !important;
+	}
+}
+
+@media (max-width: 575px) {
+	nav {
+		position: fixed !important;
+		top: 0;
+		width: 100%;
+		.container {
+			text-align: center;
+			background-color: rgba(0, 0, 0, 0.9);
+
+			#hamburger {
+				display: block;
+				opacity: 0;
+			}
+
+			#toggler {
+				z-index: 3 !important;
+				display: block;
+				cursor: pointer;
+			}
+			.my-nav-menu {
+				position: fixed;
+				padding-bottom: 0.2rem !important;
+				padding-left: 0;
+				right: 0%;
+				top: -100%;
+				flex-direction: column;
+				background-color: #111;
+				width: 100%;
+				border-radius: 0 0 10px 10px;
+				text-align: center;
+				transition: all 0.3s;
+				box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+				z-index: -1 !important;
+				.my-nav-item {
+					padding-top: 0.5rem;
+					padding-bottom: 0.5rem;
+				}
+				.my-nav-link {
+					padding: 0 !important;
+					border: none !important;
+				}
+			}
+			.my-nav-menu.show {
+				top: 76px;
+			}
+		}
+	}
+	.my-navbar-logo {
+		z-index: 3 !important;
+	}
+
+	#toggler.show .bar:nth-child(2) {
+		opacity: 0;
+	}
+	#toggler.show .bar:nth-child(1) {
+		transform: translateY(8px) rotate(45deg);
+		background-color: #ed4950;
+	}
+	#toggler.show .bar:nth-child(3) {
+		background-color: #33a4ff;
+		transform: translateY(-8px) rotate(-45deg);
+	}
+
+	.row {
+		height: 100vh;
+	}
+	#contents {
+		margin-top: 3rem !important;
+		margin-bottom: 1rem !important;
+	}
+	.login-form {
+		margin-top: 1rem !important;
+	}
+}

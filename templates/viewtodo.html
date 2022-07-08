@@ -1,0 +1,673 @@
+
+{% extends "taskform3.html"%}
+{% block addtask %}
+<div class="modal fade" id="addTask">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-bl text-white">
+				<h3 class="modal-title">Add Task</h3>
+				<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+			</div>
+
+			<div class="modal-body">
+				<form action='/tasklist/pending/' method="POST">
+					{% csrf_token %}
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Title</label>
+						<input type="text" name='ultratitle' class="form-control">
+					</div>
+					<!-- <div class="form-group mb-3">
+							<label for="category" class="mb-2">Category</label>
+							<br>
+							<select class="form-control">
+								<option>Others</option>
+								<option>Work</option>
+								<option>Sports</option>
+								<option>Study</option>
+							</select>
+						</div> -->
+					<!-- <div class="form-group mb-3">
+						<label for="title" class="mb-2">Category</label>
+						<input type="text" name='category' class="form-control">
+					</div> -->
+
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Date & Time</label>
+						<input type="datetime-local" default=datetime. now name='date' class="form-control">
+					</div>
+
+					<div class="form-group mb-3">
+						<label for="body" class="mb-2">Description</label>
+						<!-- <textarea name="editor1" class="form-control" row="5"></textarea> -->
+						<textarea rows="3" name='memo' class="form-control"></textarea>
+					</div>
+					<div class="modal-footer pb-0">
+						<button class="btn bg-bl text-white" name='save' value="added" data-bs-dismiss="modal">Save Changes</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+{% block main1 %}
+{% for task in alist %}
+{% if task.datecompleted %}
+<div class="card box-shadow-black mb-1">
+	<div class="card-header border-bottom-0 bg-dark">
+		<div class="row">
+
+			<div class="col-10 cursor-pointer">
+				<a class="" data-bs-toggle="collapse" data-bs-target="#Task{{task.id}}" style="text-decoration: none;">
+					<h5 class="my-auto text-white"><span>{{task.title}}</span>
+						<small style="font-weight:bolder; font-size: 10px; color: #d2fbd0;"> &nbsp; (Completed)</small>
+					</h5>
+					<small class="row px-2 text-muted">
+						{{task.created}}
+					</small>
+				</a>
+			</div>
+			<div class="col-2 d-flex justify-content-end align-items-center">
+				<form method="POST" class="d-flex justify-content-end align-items-center" action="/tasklist/all/">
+					{% csrf_token %}
+
+
+					{% if task.datecompleted %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="pending"
+						data-bs-toggle="tooltip" class="options-panel5" data-bs-placement="top" title="Mark as Pending">
+						<i class="fas fa-undo-alt color-blue"></i>
+					</button>
+
+					{% else %}
+					<a style="padding: 1px 6px;" href="#" data-bs-toggle="modal" class="options-panel2"
+						data-bs-target="#editAllTask{{task.id}}">
+						<i class="fas fa-pencil-alt color-blue" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i>
+					</a>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+					{% if task.important %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="unimportant"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Unpin">
+						<i class="bi bi-pin-angle-fill color-blue"></i>
+					</button>
+
+					{% else %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="important"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Pin Task">
+						<i class="bi bi-pin-angle color-blue"></i>
+					</button>
+
+
+					{% endif %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="completed"
+						data-bs-toggle="tooltip" class="options-panel5" data-bs-placement="top" title="Mark As Completed">
+						<i class="fas fa-check color-blue"></i>
+					</button>
+
+
+					{% endif %}
+				</form>
+				<a href="#" class="options-panel5 d-none" data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-v"></i>
+				</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-trash"></i> Delete Task
+					</a>
+					<a href="#Important" class="dropdown-item">
+						<i class="bi bi-pin-angle-fill"></i>
+						Pin Task
+					</a>
+					<a href="#Completed" class="dropdown-item">
+						<i class="fas fa-check"></i> Mark As Completed
+					</a>
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-pencil-alt"></i> Edit
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="Task{{task.id}}" class="collapse">
+		<div class="card-body py-0">
+			<!-- <input type="datetime-local" class="form-control" value="">-->
+
+			<div class="">
+				<p class="lead">
+				<h6 class="d-inline">Description :</h6>
+				{{task.memo}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% else %}
+<div class="card box-shadow-black mb-1">
+	<div class="card-header border-bottom-0 bg-dark">
+		<div class="row">
+
+			<div class="col-10 cursor-pointer">
+				<a class="" data-bs-toggle="collapse" data-bs-target="#Task{{task.id}}" style="text-decoration: none;">
+					<h5 class="my-auto text-white">{{task.title}}</h5>
+					<small class="row px-2 text-muted">
+						{{task.created}}
+					</small>
+				</a>
+			</div>
+			<div class="col-2 d-flex justify-content-end align-items-center">
+				<form method="POST" class="d-flex justify-content-end align-items-center" action="/tasklist/all/">
+					{% csrf_token %}
+
+
+					{% if task.datecompleted %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="pending"
+						data-bs-toggle="tooltip" class="options-panel5" data-bs-placement="top" title="Mark as Pending">
+						<i class="fas fa-undo-alt color-blue"></i>
+					</button>
+
+					{% else %}
+					<a style="padding: 1px 6px;" href="#" data-bs-toggle="modal" class="options-panel2"
+						data-bs-target="#editAllTask{{task.id}}">
+						<i class="fas fa-pencil-alt color-blue" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i>
+					</a>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+					{% if task.important %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="unimportant"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Unpin">
+						<i class="bi bi-pin-angle-fill color-blue"></i>
+					</button>
+
+					{% else %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="important"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Pin Task">
+						<i class="bi bi-pin-angle color-blue"></i>
+					</button>
+
+
+					{% endif %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="completed"
+						data-bs-toggle="tooltip" class="options-panel5" data-bs-placement="top" title="Mark As Completed">
+						<i class="fas fa-check color-blue"></i>
+					</button>
+
+
+					{% endif %}
+				</form>
+				<a href="#" class="options-panel5 d-none" data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-v"></i>
+				</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-trash"></i> Delete Task
+					</a>
+					<a href="#Important" class="dropdown-item">
+						<i class="bi bi-pin-angle-fill"></i>
+						Pin Task
+					</a>
+					<a href="#Completed" class="dropdown-item">
+						<i class="fas fa-check"></i> Mark As Completed
+					</a>
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-pencil-alt"></i> Edit
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="Task{{task.id}}" class="collapse">
+		<div class="card-body py-0">
+			<!-- <input type="datetime-local" class="form-control" value="">-->
+
+			<div class="">
+				<p class="lead">
+				<h6 class="d-inline">Description :</h6>
+				{{task.memo}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+
+<!--edit modal-->
+
+<div class="modal fade" id="editAllTask{{task.id}}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-red text-white">
+				<h3 class="modal-title">Edit Task</h3>
+				<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="/tasklist/all/">
+					{% csrf_token %}
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Title</label>
+						<input type="text" class="form-control" value="{{task.title}}" name='title'>
+					</div>
+					<!-- <div class="form-group mb-3">
+						<label for="category" class="mb-2">Category</label>
+						<br>
+						<select class="form-control">
+							<option>Others</option>
+							<option>Work</option>
+							<option>Sports</option>
+							<option>Study</option>
+						</select>
+					</div> -->
+
+
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Date & Time</label>
+						<input type="datetime-local" class="form-control" value="2000-01-01T00:00:00" name='dat'>
+					</div>
+
+					<div class="form-group mb-3">
+						<label for="body" class="mb-2">Description</label>
+						<!-- <textarea name="editor1" class="form-control" row="5"></textarea> -->
+						<textarea rows="3" class="form-control" name='desc'>{{task.memo}}</textarea>
+					</div>
+					<div class="modal-footer pb-0">
+						<button class="btn bg-red text-white" data-bs-dismiss="modal" type="submit" value='{{task.id}}'
+							name='edit'>Save Changes</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock main1 %}
+
+{% block main2 %}
+{% for task in plist %}
+<div class="card box-shadow-black mb-1">
+	<div class="card-header border-bottom-0 bg-dark">
+		<div class="row">
+
+			<div class="col-10 cursor-pointer">
+				<a class="" data-bs-toggle="collapse" data-bs-target="#Task{{task.id}}" style="text-decoration: none;">
+					<h5 class="my-auto text-white">{{task.title}}</h5>
+					<small class="row px-2 text-muted">
+						{{task.created}}
+					</small>
+				</a>
+			</div>
+			<div class="col-2 d-flex justify-content-end align-items-center">
+				<form method="POST" action="/tasklist/pending/" class="d-flex align-items-center justify-content-end">
+					{% csrf_token %}
+					<a style="padding: 1px 6px;" href="#" data-bs-toggle="modal" class="options-panel1"
+						data-bs-target="#editPendingTask{{task.id}}">
+						<i class="fas fa-pencil-alt color-blue" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i>
+					</a>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel2" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+
+					{% if task.important %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="unimportant"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Unpin">
+						<i class="bi bi-pin-angle-fill color-blue"></i>
+					</button>
+
+					{% else %}
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="important"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Pin Task">
+						<i class="bi bi-pin-angle color-blue"></i>
+					</button>
+
+
+					{% endif %}
+
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="completed"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Mark As Completed">
+						<i class="fas fa-check color-blue"></i>
+					</button>
+				</form>
+				<a href="#" class="options-panel5 d-none" data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-v"></i>
+				</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-trash"></i> Delete Task
+					</a>
+					<a href="#Important" class="dropdown-item">
+						<i class="bi bi-pin-angle"></i>
+						Pin Task
+					</a>
+					<a href="#Completed" class="dropdown-item">
+						<i class="fas fa-check"></i> Mark As Completed
+					</a>
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-pencil-alt"></i> Edit
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="Task{{task.id}}" class="collapse">
+		<div class="card-body py-0">
+			<!-- <input type="datetime-local" class="form-control" value="">-->
+
+			<div class="">
+				<p class="lead">
+				<h6 class="mb-2 d-inline">Description :</h6>
+				{{task.memo}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--edit modal-->
+
+<div class="modal fade" id="editPendingTask{{task.id}}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-red text-white">
+				<h3 class="modal-title">Edit Task</h3>
+				<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="/tasklist/pending/">
+					{% csrf_token %}
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Title</label>
+						<input type="text" class="form-control" value="{{task.title}}" name='title'>
+					</div>
+					<!-- <div class="form-group mb-3">
+						<label for="category" class="mb-2">Category</label>
+						<br>
+						<select class="form-control">
+							<option>Others</option>
+							<option>Work</option>
+							<option>Sports</option>
+							<option>Study</option>
+						</select>
+					</div> -->
+
+
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Date & Time</label>
+						<input type="datetime-local" class="form-control" value="2000-01-01T00:00" name='dat'>
+					</div>
+
+					<div class="form-group mb-3">
+						<label for="body" class="mb-2">Description</label>
+						<!-- <textarea name="editor1" class="form-control" row="5"></textarea> -->
+						<textarea rows="3" class="form-control" name='desc'>{{task.memo}}</textarea>
+					</div>
+					<div class="modal-footer pb-0">
+						<button class="btn bg-red text-white" data-bs-dismiss="modal" type="submit" name='edit'
+							value='{{task.id}}'>Save Changes</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock main2 %}
+
+{% block main3 %}
+{% for task in ilist %}
+<div class="card box-shadow-black mb-1">
+	<div class="card-header border-bottom-0 bg-dark">
+		<div class="row">
+
+			<div class="col-10 cursor-pointer">
+				<a class="" data-bs-toggle="collapse" data-bs-target="#Task{{task.id}}" style="text-decoration: none;">
+					<h5 class="my-auto text-white">{{task.title}}</h5>
+					<small class="row px-2 text-muted">
+						{{task.created}}
+					</small>
+				</a>
+			</div>
+			<div class="col-2 d-flex justify-content-end align-items-center">
+				<form method="POST" action="/tasklist/important/" class="d-flex align-items-center justify-content-end">
+					{% csrf_token %}
+					<a style="padding: 1px 6px;" href="#" data-bs-toggle="modal" class="options-panel1"
+						data-bs-target="#editImportantTask{{task.id}}">
+						<i class="fas fa-pencil-alt color-blue" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i>
+					</a>
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel2" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="unimportant"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Unpin">
+						<i class="bi bi-pin-angle-fill color-blue"></i>
+					</button>
+
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="completed"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Mark As Completed">
+						<i class="fas fa-check color-blue"></i>
+					</button>
+				</form>
+				<a href="#" class="options-panel5 d-none" data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-v"></i>
+				</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-trash"></i> Delete Task
+					</a>
+					<a href="#Important" class="dropdown-item">
+						<i class="bi bi-pin-angle-fill"></i>
+						Unpin
+					</a>
+					<a href="#Completed" class="dropdown-item">
+						<i class="fas fa-check"></i> Mark As Completed
+					</a>
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-pencil-alt"></i> Edit
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="Task{{task.id}}" class="collapse">
+		<div class="card-body py-0">
+			<!-- <input type="datetime-local" class="form-control" value="">-->
+
+			<div class="">
+				<p class="lead">
+				<h6 class="mb-2 d-inline">Description :</h6>
+				{{task.memo}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--edit modal-->
+
+
+<div class="modal fade" id="editImportantTask{{task.id}}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-red text-white">
+				<h3 class="modal-title">Edit Task</h3>
+				<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="/tasklist/important/">
+					{% csrf_token %}
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Title</label>
+						<input type="text" class="form-control" value="{{task.title}}" name='title'>
+					</div>
+					<!-- <div class="form-group mb-3">
+						<label for="category" class="mb-2">Category</label>
+						<br>
+						<select class="form-control">
+							<option>Others</option>
+							<option>Work</option>
+							<option>Sports</option>
+							<option>Study</option>
+						</select>
+					</div> -->
+
+
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Date & Time</label>
+						<input type="datetime-local" class="form-control" value="2000-01-01T00:00:00" name='dat'>
+					</div>
+
+					<div class="form-group mb-3">
+						<label for="body" class="mb-2">Description</label>
+						<!-- <textarea name="editor1" class="form-control" row="5"></textarea> -->
+						<textarea rows="3" class="form-control" name='desc'>{{task.memo}}</textarea>
+					</div>
+					<div class="modal-footer pb-0">
+						<button class="btn bg-red text-white" data-bs-dismiss="modal" type="submit" name='edit'
+							value='{{task.id}}'>Save Changes</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock main3 %}
+
+{% block main4 %}
+{% for task in clist %}
+<div class="card box-shadow-black mb-1">
+	<div class="card-header border-bottom-0 bg-dark">
+		<div class="row">
+
+			<div class="col-10 cursor-pointer">
+				<a class="" data-bs-toggle="collapse" data-bs-target="#Task{{task.id}}" style="text-decoration: none;">
+					<h5 class="my-auto text-white">{{task.title}}</h5>
+					<small class="row px-2 text-muted">
+						{{task.created}}
+					</small>
+				</a>
+			</div>
+			<div class="col-2 d-flex justify-content-end align-items-center">
+				<form method="POST" action="/tasklist/completed/" class="d-flex align-items-center justify-content-end">
+					{% csrf_token %}
+
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="delete"
+						data-bs-toggle="tooltip" class="options-panel4" data-bs-placement="top" title="Delete Task">
+						<i class="fas fa-trash color-red"></i>
+					</button>
+
+					<!-- <button style="background: none; border: none;" type="submit" value="{{task.id}}" name="important"
+						data-bs-toggle="tooltip" class="options-panel3" data-bs-placement="top" title="Pin Task">
+						<i class="bi bi-pin-angle-fill color-blue"></i>
+					</button> -->
+
+					<button style="background: none; border: none;" type="submit" value="{{task.id}}" name="pending"
+						data-bs-toggle="tooltip" class="options-panel5" data-bs-placement="top" title="Mark as Pending">
+						<i class="fas fa-undo-alt color-blue"></i>
+					</button>
+				</form>
+				<a href="#" class="options-panel5 d-none" data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-v"></i>
+				</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-trash"></i> Delete Task
+					</a>
+					<!-- <a href="#Important" class="dropdown-item">
+						<i class="bi bi-pin-angle-fill"></i>
+						Pin Task
+					</a> -->
+					<a href="#Completed" class="dropdown-item">
+						<i class="fas fa-check"></i> Mark As Completed
+					</a>
+					<a href="#" class="dropdown-item">
+						<i class="fas fa-pencil-alt"></i> Edit
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="Task{{task.id}}" class="collapse">
+		<div class="card-body py-0">
+			<!-- <input type="datetime-local" class="form-control" value="">-->
+
+			<div class="">
+				<p class="lead">
+				<h6 class="mb-2 d-inline">Description :</h6>
+				{{task.memo}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--edit modal-->
+
+<div class="modal fade" id="editTask">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-red text-white">
+				<h3 class="modal-title">Edit Task</h3>
+				<button class="close btn text-white" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="/tasklist/completed/">
+					{% csrf_token %}
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Title</label>
+						<input type="text" class="form-control" name='title'>
+					</div>
+					<!-- <div class="form-group mb-3">
+						<label for="category" class="mb-2">Category</label>
+						<br>
+						<select class="form-control">
+							<option>Others</option>
+							<option>Work</option>
+							<option>Sports</option>
+							<option>Study</option>
+						</select>
+					</div> -->
+
+
+					<div class="form-group mb-3">
+						<label for="title" class="mb-2">Date & Time</label>
+						<input type="datetime-local" class="form-control" name='dat'>
+					</div>
+
+					<div class="form-group mb-3">
+						<label for="body" class="mb-2">Description</label>
+						<!-- <textarea name="editor1" class="form-control" row="5"></textarea> -->
+						<textarea rows="3" class="form-control" name='desc'></textarea>
+					</div>
+					<div class="modal-footer pb-0">
+						<button class="btn bg-red text-white" data-bs-dismiss="modal" name='edit' value='{{task.id}}'
+							type='submit'>Save Changes</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock main4 %}
